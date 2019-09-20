@@ -1,0 +1,15 @@
+.table-header-emp{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.table-header-emp > i{
+    transition: all 0.3s;
+}
+
+.error-message{
+    margin-top: -10px;
+    color: coral;
+    font-size: 20px !important;
+}

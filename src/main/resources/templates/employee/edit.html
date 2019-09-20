@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head :: head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div class="container" style="margin-top: 35px;">
+        <h2> Edit Employee</h2>
+
+        <div class="row">
+            <!-- Adding object to the form -->
+            <form
+                    class="col s12"
+                    th:object="${employee}"
+                    th:action="@{/employees/edit}"
+                    method="POST"
+            >
+                <input th:hidden="true" th:field="*{id}">
+
+                <div class="row">
+
+                    <div class="input-field col s6">
+                        <label for="first_name">First Name</label>
+                        <input th:field="*{firstName}"
+                               th:errorclass="error"
+                               id="first_name" type="text" class="validate" placeholder="Juamzinho...">
+                        <p th:if="${#fields.hasErrors('firstName')}"
+                           th:errorclass="error-message"
+                           th:errors="*{firstName}"
+                           class="flow-text">
+                        </p>
+                    </div>
+
+                    <div class="input-field col s6">
+                        <label for="last_name">Last Name</label>
+                        <input  th:field="*{lastName}"
+                                th:errorclass="error"
+                                id="last_name" type="text" class="validate" placeholder="Zézinho...">
+                        <p th:if="${#fields.hasErrors('lastName')}"
+                           th:errorclass="error-message"
+                           th:errors="*{lastName}"
+                           class="flow-text">
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for="email">Email</label>
+                        <input th:field="*{email}"
+                               th:errorclass="error"
+                                id="email" type="email" class="validate" placeholder="zezin@gmail.com">
+                        <p th:if="${#fields.hasErrors('email')}"
+                           th:errorclass="error-message"
+                           th:errors="*{email}"
+                           class="flow-text">
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s4 m2">
+                        <a class="btn waves-effect waves-light red lighten-2"
+                           style="width: 100%;"
+                           type="button"
+                            th:href="@{/employees/}">Cancel
+                            <i class="fas fa-ban right"></i>
+                        </a>
+                    </div>
+                    <div class="col s4 m2 offset-s4 offset-m8">
+                        <button class="btn waves-effect waves-light" type="submit" style="width: 100%;">Submit
+                            <i class="fas fa-paper-plane right"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <th:block th:replace="/fragments/footer :: footer" />
+</body>
+</html>
