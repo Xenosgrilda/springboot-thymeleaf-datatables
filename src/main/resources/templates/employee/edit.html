@@ -50,27 +50,38 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <label for="email">Email</label>
-                        <input th:field="*{email}"
-                               th:errorclass="error"
+
+                        <input  th:field="*{email}"
+                                th:errorclass="error"
                                 id="email" type="email" class="validate" placeholder="zezin@gmail.com">
+
                         <p th:if="${#fields.hasErrors('email')}"
                            th:errorclass="error-message"
                            th:errors="*{email}"
                            class="flow-text">
                         </p>
+                        
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col s4 m2">
-                        <a class="btn waves-effect waves-light red lighten-2"
-                           style="width: 100%;"
-                           type="button"
+                        <a  class="btn waves-effect waves-light grey darken-1"
+                            style="width: 100%;"
+                            role="button"
                             th:href="@{/employees/}">Cancel
                             <i class="fas fa-ban right"></i>
                         </a>
                     </div>
-                    <div class="col s4 m2 offset-s4 offset-m8">
+                    <div class="col s4 m2">
+                        <a  class="btn waves-effect waves-light red lighten-1"
+                            style="width: 100%;"
+                            role="button"
+                            th:href="@{/employees/delete(id=*{id})}">Delete
+                            <i class="fas fa-trash right"></i>
+                        </a>
+                    </div>
+                    <div class="col s4 m2 offset-m6">
                         <button class="btn waves-effect waves-light" type="submit" style="width: 100%;">Submit
                             <i class="fas fa-paper-plane right"></i>
                         </button>
