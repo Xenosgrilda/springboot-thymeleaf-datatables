@@ -1,18 +1,23 @@
 package com.xenosgrilda.datatablesthymeleafspringboot.controller;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import com.xenosgrilda.datatablesthymeleafspringboot.entity.Employee;
 import com.xenosgrilda.datatablesthymeleafspringboot.service.EmployeeService;
-import lombok.AllArgsConstructor;
 
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.util.List;
+import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
@@ -92,3 +97,7 @@ public class EmployeeController {
   * Remember that the name of the object "nameOfTheObject" added in "ModelAndView("...").addObject("nameOfTheObject", object)" needs to
   * be the same as object's class, otherwise BindingResult will get lost.
   */
+
+  /**
+   * Testing Commit GitLens
+   */
