@@ -13,3 +13,13 @@
     color: coral;
     font-size: 20px !important;
 }
+
+.error-message-alert{
+    border-color: tomato !important;
+    background-color: #fff5ee !important;
+}
+
+.error-message-alert > li {
+    background-color: inherit !important;
+    color: tomato;
+}

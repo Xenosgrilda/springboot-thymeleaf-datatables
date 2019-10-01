@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class EmployeeService implements ServiceInterface{
+public class EmployeeService implements ServiceInterface<Employee>{
 
     private EmployeeRepository employeeRepository;
 
@@ -20,18 +20,8 @@ public class EmployeeService implements ServiceInterface{
     }
 
     @Override
-    public Employee findById(int id) {
-        Optional<Employee> employeeOptional = this.employeeRepository.findById(id);
-
-        Employee employee;
-
-        if (employeeOptional.isPresent()){
-            employee = employeeOptional.get();
-        } else {
-            throw new RuntimeException("Employee id: " + id + " was not found");
-        }
-
-        return employee;
+    public Optional<Employee> findById(int id) {
+        return this.employeeRepository.findById(id);
     }
 
     @Override
@@ -42,5 +32,9 @@ public class EmployeeService implements ServiceInterface{
     @Override
     public void deleteById(int id) {
         this.employeeRepository.deleteById(id);
+    }
+
+    public Optional<Employee> findByEmail(String email) {
+        return this.employeeRepository.findByEmail(email);
     }
 }

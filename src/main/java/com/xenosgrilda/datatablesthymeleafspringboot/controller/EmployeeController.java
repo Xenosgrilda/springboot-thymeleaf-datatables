@@ -1,6 +1,7 @@
 package com.xenosgrilda.datatablesthymeleafspringboot.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @AllArgsConstructor
@@ -31,14 +33,27 @@ public class EmployeeController {
         return "redirect:/employees/home";
     }
 
-    @GetMapping("/home")
-    public String getEmployeesList(Model employees) {
+// Model approach
+//    @GetMapping("/home")
+//    public String getEmployeesList(Model employees) {
+//
+//        List<Employee> employeeList = this.employeeService.findAllByOrderByLastNameAsc();
+//
+//        employees.addAttribute("employees", employeeList);
+//
+//        return "employee/home";
+//    }
 
+    @GetMapping("/home")
+    public ModelAndView getEmployeesList() {
+
+
+        ModelAndView modelAndView = new ModelAndView("employee/home");
         List<Employee> employeeList = this.employeeService.findAllByOrderByLastNameAsc();
 
-        employees.addAttribute("employees", employeeList);
+        modelAndView.addObject("employees", employeeList);
 
-        return "employee/home";
+        return modelAndView;
     }
 
     @GetMapping("/edit-form/{id}")
@@ -47,11 +62,24 @@ public class EmployeeController {
         if ( id == -1){
             emp.setId(id);
             return new ModelAndView("employee/edit").addObject("employee",emp);
-        } else {
-            emp = this.employeeService.findById(id);
 
-            return new ModelAndView("employee/edit")
-                    .addObject("employee", emp);
+        }
+
+        else {
+
+            Optional<Employee> entity = this.employeeService.findById(emp.getId());
+
+            if (entity.isPresent()){
+
+                return new ModelAndView("employee/edit")
+                        .addObject("employee", entity.get());
+            }
+
+            else {
+
+                return this.getEmployeesList().addObject("message",
+                        "The employee id: " + emp.getId() + " don't exists.");
+            }
 
         }
     }
@@ -77,27 +105,36 @@ public class EmployeeController {
         if (bindingResult.hasErrors()){
 
             return this.editFormEmployee(-1,employee);
+
         } else {
 
-            employeeService.save(employee);
+            // Checking if there is an employee with this email
+            Optional<Employee> entity = this.employeeService.findByEmail(employee.getEmail());
 
-            // Faking home
-            List<Employee> employeeList = this.employeeService.findAllByOrderByLastNameAsc();
+            if (!entity.isPresent()){
 
-            return new ModelAndView("redirect:/employees/home").addObject("employees", employeeList);
+                employeeService.save(employee);
+
+                // Faking home
+                List<Employee> employeeList = this.employeeService.findAllByOrderByLastNameAsc();
+
+                return new ModelAndView("redirect:/employees/home").addObject("employees", employeeList);
+            }
+
+            else {
+
+                return this.getEmployeesList().addObject("message",
+                        "The email: " + employee.getEmail() + " is already in use.");
+            }
         }
     }
 }
 
 /**
  * On "editEmployee" @ModelAttribute receives the name of the Model being sent from the view
- */
+*/
 
  /**
   * Remember that the name of the object "nameOfTheObject" added in "ModelAndView("...").addObject("nameOfTheObject", object)" needs to
   * be the same as object's class, otherwise BindingResult will get lost.
-  */
-
-  /**
-   * Testing Commit GitLens
-   */
+*/
