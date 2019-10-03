@@ -23,3 +23,7 @@
     background-color: inherit !important;
     color: tomato;
 }
+
+.center-pag{
+    margin-left: 50%;
+}

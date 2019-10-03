@@ -1,13 +1,17 @@
 package com.xenosgrilda.datatablesthymeleafspringboot.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
 import com.xenosgrilda.datatablesthymeleafspringboot.entity.Employee;
 import com.xenosgrilda.datatablesthymeleafspringboot.service.EmployeeService;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,15 +48,54 @@ public class EmployeeController {
 //        return "employee/home";
 //    }
 
-    @GetMapping("/home")
-    public ModelAndView getEmployeesList() {
+//    @GetMapping("/home")
+//    public ModelAndView getEmployeesList() {
+//
+//
+//        ModelAndView modelAndView = new ModelAndView("employee/home");
+//        List<Employee> employeeList = this.employeeService.findAllByOrderByLastNameAsc();
+//
+//        modelAndView.addObject("employees", employeeList);
+//
+//        return modelAndView;
+//    }
 
+    @GetMapping("/home")
+    public ModelAndView getEmployeesList(
+            @RequestParam(
+                    value = "page",
+                    required = false,
+                    defaultValue = "1") int page,
+            @RequestParam(
+                    value = "size",
+                    required = false,
+                    defaultValue = "5") int size
+    )
+    {
+        // Pagination content
+        Page<Employee> employeePage = this.employeeService.findAllPageable(page -1, size);
 
         ModelAndView modelAndView = new ModelAndView("employee/home");
-        List<Employee> employeeList = this.employeeService.findAllByOrderByLastNameAsc();
+        modelAndView.addObject("employees", employeePage);
 
-        modelAndView.addObject("employees", employeeList);
+        // Pages amount
+        int pageAmount = employeePage.getTotalPages();
 
+        List<Integer> pageAmountList;
+
+        if (pageAmount > 0){
+
+            pageAmountList = IntStream.rangeClosed(1, pageAmount)
+                    .boxed()
+                    .collect(Collectors.toList());
+        }
+        else {
+
+            pageAmountList = new ArrayList<>();
+            pageAmountList.add(1);
+        }
+
+        modelAndView.addObject("pageAmountList", pageAmountList);
         return modelAndView;
     }
 
@@ -77,7 +120,7 @@ public class EmployeeController {
 
             else {
 
-                return this.getEmployeesList().addObject("message",
+                return this.getEmployeesList(0, 5).addObject("message",
                         "The employee id: " + emp.getId() + " don't exists.");
             }
 
@@ -123,7 +166,7 @@ public class EmployeeController {
 
             else {
 
-                return this.getEmployeesList().addObject("message",
+                return this.getEmployeesList(0, 5).addObject("message",
                         "The email: " + employee.getEmail() + " is already in use.");
             }
         }

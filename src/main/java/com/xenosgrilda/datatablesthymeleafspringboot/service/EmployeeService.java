@@ -3,6 +3,10 @@ package com.xenosgrilda.datatablesthymeleafspringboot.service;
 import com.xenosgrilda.datatablesthymeleafspringboot.entity.Employee;
 import com.xenosgrilda.datatablesthymeleafspringboot.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +17,8 @@ import java.util.Optional;
 public class EmployeeService implements ServiceInterface<Employee>{
 
     private EmployeeRepository employeeRepository;
+
+    // Interface Basic Methods
 
     @Override
     public List<Employee> findAllByOrderByLastNameAsc() {
@@ -34,7 +40,40 @@ public class EmployeeService implements ServiceInterface<Employee>{
         this.employeeRepository.deleteById(id);
     }
 
+    // Custom Methods
     public Optional<Employee> findByEmail(String email) {
         return this.employeeRepository.findByEmail(email);
+    }
+
+    public Page<Employee> findAllPageable(int page, int size) {
+
+        List<Employee> resultList = this.employeeRepository.findAll();
+
+        if (page > (resultList.size() / size)){
+
+            int resultDivision = resultList.size() / size;
+
+            if ((resultList.size() % size) <= size){
+                resultDivision++;
+            }
+
+            if (page >= resultDivision){
+                page =
+            }
+        }
+
+        if (size >= resultList.size()){
+            page = 0;
+        }
+
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        PagedListHolder<Employee> pagedListHolder = new PagedListHolder<>(resultList);
+        pagedListHolder.setPage(page);
+        pagedListHolder.setPageSize(size);
+
+        // Turning a list into Page
+        return new PageImpl<>(pagedListHolder.getPageList(), pageRequest, resultList.size());
     }
 }

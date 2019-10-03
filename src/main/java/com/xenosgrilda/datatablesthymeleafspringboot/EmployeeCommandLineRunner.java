@@ -36,7 +36,12 @@ public class EmployeeCommandLineRunner implements org.springframework.boot.Comma
                 new Employee("Soneca", "Maroto", "soneca@gmail.com"),
                 new Employee("Joaninha", "Grossa", "joaninha@gmail.com"),
                 new Employee("Penelope", "Zica", "pepe@gmail.com"),
-                new Employee("Nina", "Chorona", "nina@gmail.com")
+                new Employee("Fabiola", "Matsen", "fab@hotmail.com"),
+                new Employee("Dorival", "Abreu", "doriva@yahoo.com"),
+                new Employee("Fi del", "Mãe", "fidel@hotmail.com"),
+                new Employee("Roberto", "Brito", "betão@hotmail.com"),
+                new Employee("Abreu", "Cabral", "acr@hotmail.com"),
+                new Employee("Mohamed", "O Verdadeiro", "momo@yahoo.com")
         ));
     }
 }

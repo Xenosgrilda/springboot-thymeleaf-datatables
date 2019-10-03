@@ -45,7 +45,7 @@
             </thead>
 
             <tbody>
-            <tr th:each="employee : ${employees}">
+            <tr th:each="employee : ${employees.content}">
 
                 <!-- ID -->
                 <td th:hidden="true" th:text="${employee.getId()}"></td>
@@ -68,6 +68,39 @@
             </tr>
             </tbody>
         </table>
+
+        <ul th:unless="${pageAmountList.isEmpty()}" class="pagination center-pag">
+
+            <li th:classappend="${employees.first} ? disabled : ''" class="waves-effect">
+
+                <a th:unless="${employees.first}" th:href="@{/employees/home(page=${employees.number - 1})}">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+
+                <a th:if="${employees.first}" href="#">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+
+            </li>
+
+            <li th:each="pageNumber : ${pageAmountList}"
+                th:classappend="${pageNumber == employees.number} ? active : ''"
+                class="waves-effect"
+            >
+                <a th:text="${pageNumber}" th:href="@{/employees/home(page=${pageNumber})}"></a>
+            </li>
+
+            <li th:classappend="${employees.last} ? disabled : ''" class="waves-effect">
+                <a th:unless="${employees.last}" th:href="@{/employees/home(page=${employees.number + 1})}">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+
+                <a th:if="${employees.last}" href="#">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+        </ul>
+
     </div>
 
     <th:block th:replace="/fragments/footer :: footer" />
