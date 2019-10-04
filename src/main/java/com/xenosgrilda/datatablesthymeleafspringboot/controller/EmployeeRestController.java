@@ -30,10 +30,15 @@ public class EmployeeRestController {
             @RequestParam(
                     value = "size",
                     required = false,
-                    defaultValue = "5") int size
+                    defaultValue = "5") int size,
+
+            @RequestParam(
+                    value = "searchTerm",
+                    required = false,
+                    defaultValue = "_") String searchTerm
             )
     {
 
-        return this.employeeService.findAllPageable(page, size);
+        return this.employeeService.findAllPageableRest(page, size, searchTerm);
     }
 }

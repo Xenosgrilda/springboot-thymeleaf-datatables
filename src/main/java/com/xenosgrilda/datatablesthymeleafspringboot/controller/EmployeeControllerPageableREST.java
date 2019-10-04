@@ -1,19 +1,14 @@
 package com.xenosgrilda.datatablesthymeleafspringboot.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
 import com.xenosgrilda.datatablesthymeleafspringboot.entity.Employee;
 import com.xenosgrilda.datatablesthymeleafspringboot.service.EmployeeService;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,88 +18,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/employees")
-public class EmployeeController {
+@RequestMapping("/employees-tables-rest")
+public class EmployeeControllerPageableREST {
 
     private EmployeeService employeeService;
 
     @GetMapping("")
     public String employeeRedirect() {
-        return "redirect:/employees/home";
+        return "redirect:/employees-tables-rest/home";
     }
 
-// Model approach
-//    @GetMapping("/home")
-//    public String getEmployeesList(Model employees) {
-//
-//        List<Employee> employeeList = this.employeeService.findAllByOrderByLastNameAsc();
-//
-//        employees.addAttribute("employees", employeeList);
-//
-//        return "employee/home";
-//    }
+   @GetMapping("/home")
+   public ModelAndView getEmployeesList() {
 
-//    @GetMapping("/home")
-//    public ModelAndView getEmployeesList() {
-//
-//
-//        ModelAndView modelAndView = new ModelAndView("employee/home");
-//        List<Employee> employeeList = this.employeeService.findAllByOrderByLastNameAsc();
-//
-//        modelAndView.addObject("employees", employeeList);
-//
-//        return modelAndView;
-//    }
 
-    @GetMapping("/home")
-    public ModelAndView getEmployeesList(
-            @RequestParam(
-                    value = "page",
-                    required = false,
-                    defaultValue = "1") int page,
-            @RequestParam(
-                    value = "size",
-                    required = false,
-                    defaultValue = "5") int size
-    )
-    {
-        // Pagination content
-        Page<Employee> employeePage = this.employeeService.findAllPageable(page -1, size);
+       ModelAndView modelAndView = new ModelAndView("employee/home-pageable-rest");
+       List<Employee> employeeList = this.employeeService.findAllByOrderByLastNameAsc();
 
-        ModelAndView modelAndView = new ModelAndView("employee/home");
-        modelAndView.addObject("employees", employeePage);
+       modelAndView.addObject("employees", employeeList);
 
-        // Pages amount
-        int pageAmount = employeePage.getTotalPages();
-
-        List<Integer> pageAmountList;
-
-        if (pageAmount > 0){
-
-            pageAmountList = IntStream.rangeClosed(1, pageAmount)
-                    .boxed()
-                    .collect(Collectors.toList());
-        }
-        else {
-
-            pageAmountList = new ArrayList<>();
-            pageAmountList.add(1);
-        }
-
-        modelAndView.addObject("pageAmountList", pageAmountList);
-        return modelAndView;
-    }
+       return modelAndView;
+   }
 
     @GetMapping("/edit-form/{id}")
     public ModelAndView editFormEmployee(@PathVariable int id, Employee emp){
 
         if ( id == -1){
             emp.setId(id);
-            return new ModelAndView("employee/edit").addObject("employee",emp);
+            return new ModelAndView("employee/edit")
+                .addObject("employee",emp);
 
         }
 
@@ -120,8 +65,9 @@ public class EmployeeController {
 
             else {
 
-                return this.getEmployeesList(0, 5).addObject("message",
-                        "The employee id: " + emp.getId() + " don't exists.");
+                return this.getEmployeesList()
+                .addObject( "message",
+                            "The employee id: " + emp.getId() + " don't exists.");
             }
 
         }
@@ -138,7 +84,7 @@ public class EmployeeController {
 
         this.employeeService.deleteById(id);
 
-        return "redirect:/employees/home";
+        return "redirect:/employees-table-rest/home";
     }
 
     @PostMapping("/edit")
@@ -161,13 +107,14 @@ public class EmployeeController {
                 // Faking home
                 List<Employee> employeeList = this.employeeService.findAllByOrderByLastNameAsc();
 
-                return new ModelAndView("redirect:/employees/home").addObject("employees", employeeList);
+                return new ModelAndView("redirect:/employees-table-rest/home").addObject("employees", employeeList);
             }
 
             else {
 
-                return this.getEmployeesList(0, 5).addObject("message",
-                        "The email: " + employee.getEmail() + " is already in use.");
+                return this.getEmployeesList()
+                .addObject( "message",
+                            "The email: " + employee.getEmail() + " is already in use.");
             }
         }
     }
