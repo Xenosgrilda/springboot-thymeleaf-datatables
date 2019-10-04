@@ -10,7 +10,8 @@
         <!-- Materialize JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-        <script th:src="@{/js/main.js}"></script>
+        <script th:if="${dataTablesMvc == true}" th:src="@{/js/data-table-mvc.js}"></script>
+        <script th:unless="${dataTablesMvc}" th:src="@{/js/data-table-rest.js}"></script>
     </th:block>
 </body>
 </html>

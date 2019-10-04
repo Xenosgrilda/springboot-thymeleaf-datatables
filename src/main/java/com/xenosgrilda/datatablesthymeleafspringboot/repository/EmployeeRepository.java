@@ -19,11 +19,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     Optional<Employee> findByEmail(String email);
 
-//    @Query( "FROM Employee e " +
-//            "WHERE LOWER(e.lastName) ")
-//    Page<Employee> findAllSearch(
-//            @Param("searchTerm") String searchTerm,
-//            Pageable pageable);
+    @Query( "FROM Employee e WHERE LOWER(e.lastName) LIKE %:searchTerm%")
+    Page<Employee> findAllSearch(
+           @Param("searchTerm") String searchTerm,
+           Pageable pageable);
 }
 
 /*

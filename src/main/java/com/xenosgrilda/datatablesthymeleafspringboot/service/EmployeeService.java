@@ -7,6 +7,7 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,15 +52,7 @@ public class EmployeeService implements ServiceInterface<Employee>{
 
         if (page > (resultList.size() / size)){
 
-            int resultDivision = resultList.size() / size;
-
-            if ((resultList.size() % size) <= size){
-                resultDivision++;
-            }
-
-            if (page >= resultDivision){
-                page =
-            }
+            page = (resultList.size() / size);
         }
 
         if (size >= resultList.size()){
@@ -75,5 +68,12 @@ public class EmployeeService implements ServiceInterface<Employee>{
 
         // Turning a list into Page
         return new PageImpl<>(pagedListHolder.getPageList(), pageRequest, resultList.size());
+    }
+
+    public Page<Employee> findAllPageableRest(int page, int size, String searchTerm) {
+
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "lastName");
+
+        return this.employeeRepository.findAllSearch(searchTerm, pageRequest);
     }
 }

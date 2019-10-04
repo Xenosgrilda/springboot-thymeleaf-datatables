@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head :: head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div class="container" style="margin-top: 35px;">
+
+        <ul th:if="${message}" class="collection error-message-alert">
+            <li class="collection-item" th:text="${message.toString()}"></li>
+        </ul>
+
+
+        <h2> DataTables Employees </h2>
+        <table id="employee-table">
+            <thead>
+            <tr>
+<!--                <th th:hidden="true">ID</th>-->
+<!--                <th>-->
+<!--                    <a th:href="@{/employees/create}">-->
+<!--                        <i class="fas fa-plus-square"></i>-->
+<!--                    </a>-->
+<!--                </th>-->
+                <th>
+                    <div class="table-header-emp">
+                        First Name
+                        <i class="fas fa-minus-circle"></i>
+                    </div>
+                </th>
+                <th>
+                    <div class="table-header-emp">
+                        Last Name
+                        <i class="fas fa-minus-circle"></i>
+                    </div>
+                </th>
+                <th>
+                    <div class="table-header-emp">
+                        Email
+                        <i class="fas fa-minus-circle"></i>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+        </table>
+
+<!--        <ul th:unless="${pageAmountList.isEmpty()}" class="pagination center-pag">-->
+
+<!--            <li th:classappend="${employees.first} ? disabled : ''" class="waves-effect">-->
+
+<!--                <a th:unless="${employees.first}" th:href="@{/employees/home(page=${employees.number - 1})}">-->
+<!--                    <i class="fas fa-chevron-left"></i>-->
+<!--                </a>-->
+
+<!--                <a th:if="${employees.first}" href="#">-->
+<!--                    <i class="fas fa-chevron-left"></i>-->
+<!--                </a>-->
+
+<!--            </li>-->
+
+<!--            <li th:each="pageNumber : ${pageAmountList}"-->
+<!--                th:classappend="${pageNumber == employees.number} ? active : ''"-->
+<!--                class="waves-effect"-->
+<!--            >-->
+<!--                <a th:text="${pageNumber}" th:href="@{/employees/home(page=${pageNumber})}"></a>-->
+<!--            </li>-->
+
+<!--            <li th:classappend="${employees.last} ? disabled : ''" class="waves-effect">-->
+<!--                <a th:unless="${employees.last}" th:href="@{/employees/home(page=${employees.number + 1})}">-->
+<!--                    <i class="fas fa-chevron-right"></i>-->
+<!--                </a>-->
+
+<!--                <a th:if="${employees.last}" href="#">-->
+<!--                    <i class="fas fa-chevron-right"></i>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--        </ul>-->
+
+    </div>
+
+    <th:block th:replace="/fragments/footer :: footer(dataTablesMvc=false)" />
+</body>
+</html>

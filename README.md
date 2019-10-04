@@ -9,6 +9,11 @@ Also this project is using Materialise CSS to make it beautiful.
 
 Feel free to take a look and play with it.
 
+#### Home
+![Home](./src/main/resources/static/img/readme/home.png)
+
+#### Edit
+![Edit](./src/main/resources/static/img/readme/edit.png)
 ## Build With
 
 * [Java](https://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html) - 8

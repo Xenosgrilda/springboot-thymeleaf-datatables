@@ -14,7 +14,7 @@
             <form
                     class="col s12"
                     th:object="${employee}"
-                    th:action="@{/employees/edit}"
+                    th:action="@{/employees-tables-mvc/edit}"
                     method="POST"
             >
                 <input th:hidden="true" th:field="*{id}">
@@ -69,15 +69,17 @@
                         <a  class="btn waves-effect waves-light grey darken-1"
                             style="width: 100%;"
                             role="button"
-                            th:href="@{/employees/}">Cancel
+                            th:href="@{/employees-tables-mvc/}">Cancel
                             <i class="fas fa-ban right"></i>
                         </a>
                     </div>
                     <div class="col s4 m2">
-                        <a  class="btn waves-effect waves-light red lighten-1"
+                        <a  th:if="*{id != -1}"
+                            th:href="@{/employees-tables-mvc/delete(id=*{id})}"
+                            class="btn waves-effect waves-light red lighten-1"
                             style="width: 100%;"
                             role="button"
-                            th:href="@{/employees/delete(id=*{id})}">Delete
+                        >Delete
                             <i class="fas fa-trash right"></i>
                         </a>
                     </div>
@@ -92,6 +94,6 @@
         </div>
     </div>
 
-    <th:block th:replace="/fragments/footer :: footer" />
+    <th:block th:replace="/fragments/footer :: footer(dataTablesMvc = true)" />
 </body>
 </html>
