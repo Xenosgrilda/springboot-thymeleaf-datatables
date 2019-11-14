@@ -62,7 +62,6 @@ public class EmployeeControllerPageableMVC {
     )
     {
         // Pagination content
-        long rowCount = this.employeeService.countRows2();
         Page<Employee> employeePage = this.employeeService.findAllPageable(page -1, size);
 
         ModelAndView modelAndView = new ModelAndView("employee/home-pageable-mvc");
@@ -77,11 +76,11 @@ public class EmployeeControllerPageableMVC {
             int start, end;
 
             if (page >= 10){
-                start = Math.max(1, page - 4);
-                end = Math.min(pageAmount, (page + 5));
+                start = Math.max(1, (page - ((this.maxPage / 2) + 1)));
+                end = Math.min(pageAmount, (page + (this.maxPage / 2)));
             } else {
                 start = 1;
-                end = Math.min(pageAmount, 10);
+                end = Math.min(pageAmount, this.maxPage);
             }
 
             pageAmountList = IntStream.rangeClosed(start, end)
