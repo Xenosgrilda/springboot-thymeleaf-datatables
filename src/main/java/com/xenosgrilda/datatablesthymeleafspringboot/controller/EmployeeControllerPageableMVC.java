@@ -28,6 +28,8 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/employees-tables-mvc")
 public class EmployeeControllerPageableMVC {
 
+    private final int maxPage = 10;
+
     private EmployeeService employeeService;
 
     @GetMapping("")
@@ -60,6 +62,7 @@ public class EmployeeControllerPageableMVC {
     )
     {
         // Pagination content
+        long rowCount = this.employeeService.countRows2();
         Page<Employee> employeePage = this.employeeService.findAllPageable(page -1, size);
 
         ModelAndView modelAndView = new ModelAndView("employee/home-pageable-mvc");
@@ -71,10 +74,19 @@ public class EmployeeControllerPageableMVC {
         List<Integer> pageAmountList;
 
         if (pageAmount > 0){
+            int start, end;
 
-            pageAmountList = IntStream.rangeClosed(1, pageAmount)
-                    .boxed()
-                    .collect(Collectors.toList());
+            if (page >= 10){
+                start = Math.max(1, page - 4);
+                end = Math.min(pageAmount, (page + 5));
+            } else {
+                start = 1;
+                end = Math.min(pageAmount, 10);
+            }
+
+            pageAmountList = IntStream.rangeClosed(start, end)
+            .boxed()
+            .collect(Collectors.toList());
         }
         else {
 

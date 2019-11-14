@@ -71,8 +71,8 @@
 
         <ul th:unless="${pageAmountList.isEmpty()}" class="pagination center-pag">
 
+            <!-- Back Btn -->
             <li th:classappend="${employees.first} ? disabled : ''" class="waves-effect">
-
                 <a th:unless="${employees.first}" th:href="@{/employees-tables-mvc/home(page=${employees.number})}">
                     <i class="fas fa-chevron-left"></i>
                 </a>
@@ -80,9 +80,9 @@
                 <a th:if="${employees.first}" href="javascript:void(0);">
                     <i class="fas fa-chevron-left"></i>
                 </a>
-
             </li>
 
+            <!-- Pages -->
             <li th:each="pageNumber : ${pageAmountList}"
                 th:classappend="${pageNumber == employees.number + 1} ? 'active blue lighten-2' : ''"
                 class="waves-effect"
@@ -90,6 +90,7 @@
                 <a th:text="${pageNumber}" th:href="@{/employees-tables-mvc/home(page=${pageNumber})}"></a>
             </li>
 
+            <!-- Next Btn -->
             <li th:classappend="${employees.last} ? disabled : ''" class="waves-effect">
                 <a th:unless="${employees.last}" th:href="@{/employees-tables-mvc/home(page=${employees.number + 2})}">
                     <i class="fas fa-chevron-right"></i>

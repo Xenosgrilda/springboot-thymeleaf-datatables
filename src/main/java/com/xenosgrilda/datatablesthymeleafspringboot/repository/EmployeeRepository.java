@@ -23,6 +23,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     Page<Employee> findAllSearch(
            @Param("searchTerm") String searchTerm,
            Pageable pageable);
+
+    @Query("SELECT count(e.id) FROM Employee e")
+    long countRows();
+
+//    List<Employee> findPageableList(int page, int size);
 }
 
 /*

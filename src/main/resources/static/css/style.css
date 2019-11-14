@@ -26,4 +26,5 @@
 
 .center-pag{
     margin-left: 50%;
+    transform: translateX(-200px);
 }

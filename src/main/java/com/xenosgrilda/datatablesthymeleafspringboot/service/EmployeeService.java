@@ -46,6 +46,7 @@ public class EmployeeService implements ServiceInterface<Employee>{
         return this.employeeRepository.findByEmail(email);
     }
 
+    // Pageable returning everything
     public Page<Employee> findAllPageable(int page, int size) {
 
         List<Employee> resultList = this.employeeRepository.findAll();
@@ -70,10 +71,36 @@ public class EmployeeService implements ServiceInterface<Employee>{
         return new PageImpl<>(pagedListHolder.getPageList(), pageRequest, resultList.size());
     }
 
+    // TODO: Page fetching only the relevant content
+//    public Page<Employee> findAllPageable(int page, int size) {
+//
+//        // Fetching data
+//        List<Employee> resultList = this.employeeRepository.findAll();
+//
+//        PageRequest pageRequest = PageRequest.of(page, size);
+//        PagedListHolder<Employee> pagedListHolder = new PagedListHolder<>();
+//
+//        pagedListHolder.setSource(resultList);
+//        pagedListHolder.setPageSize(size);
+//        pagedListHolder.setPage(page);
+//
+//        // Turning a list into Page
+//        return new PageImpl<>(pagedListHolder.getPageList(), pageRequest, resultList.size());
+//    }
+
     public Page<Employee> findAllPageableRest(int page, int size, String searchTerm) {
 
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "lastName");
 
         return this.employeeRepository.findAllSearch(searchTerm, pageRequest);
+    }
+
+    // Alternatives to count
+    public long countRows() {
+        return this.employeeRepository.countRows();
+    }
+
+    public long countRows2() {
+        return this.employeeRepository.count();
     }
 }
