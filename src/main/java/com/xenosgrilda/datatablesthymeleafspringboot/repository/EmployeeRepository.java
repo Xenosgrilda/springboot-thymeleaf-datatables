@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
@@ -17,7 +16,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     // Custom method to get data sorted
     List<Employee> findAllByOrderByLastNameAsc();
 
-    Optional<Employee> findByEmail(String email);
+    List<Employee> findByEmail(String email);
 
     @Query( "FROM Employee e WHERE LOWER(e.lastName) LIKE %:searchTerm%")
     Page<Employee> findAllSearch(

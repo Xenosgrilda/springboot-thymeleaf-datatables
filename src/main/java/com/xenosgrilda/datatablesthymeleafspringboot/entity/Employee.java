@@ -29,7 +29,7 @@ public class Employee {
     private String lastName;
 
     @Email(regexp = "^(.+)@(.+)$", message = "ENTER VALID EMAIL AAAAAAAAAAAH!")
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     public Employee(String firstName, String lastName, String email) {

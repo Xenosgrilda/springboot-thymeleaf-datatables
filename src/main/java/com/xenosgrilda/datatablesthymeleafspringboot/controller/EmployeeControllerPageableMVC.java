@@ -119,7 +119,7 @@ public class EmployeeControllerPageableMVC {
 
             else {
 
-                return this.getEmployeesList(0, 5).addObject("message",
+                return this.getEmployeesList(1, 5).addObject("message",
                         "The employee id: " + emp.getId() + " don't exists.");
             }
 
@@ -151,9 +151,9 @@ public class EmployeeControllerPageableMVC {
         } else {
 
             // Checking if there is an employee with this email
-            Optional<Employee> entity = this.employeeService.findByEmail(employee.getEmail());
+            List<Employee> entity = this.employeeService.findByEmail(employee.getEmail());
 
-            if (!entity.isPresent()){
+            if (entity.size() > 0){
 
                 employeeService.save(employee);
 
@@ -162,7 +162,7 @@ public class EmployeeControllerPageableMVC {
 
             else {
 
-                return this.getEmployeesList(0, 5).addObject("message",
+                return this.getEmployeesList(1, 5).addObject("message",
                         "The email: " + employee.getEmail() + " is already in use.");
             }
         }

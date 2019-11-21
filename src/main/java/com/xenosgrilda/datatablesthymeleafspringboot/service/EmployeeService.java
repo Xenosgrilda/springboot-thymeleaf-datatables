@@ -42,7 +42,7 @@ public class EmployeeService implements ServiceInterface<Employee>{
     }
 
     // Custom Methods
-    public Optional<Employee> findByEmail(String email) {
+    public List<Employee> findByEmail(String email) {
         return this.employeeRepository.findByEmail(email);
     }
 

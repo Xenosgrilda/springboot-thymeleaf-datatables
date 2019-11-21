@@ -28,3 +28,21 @@
     margin-left: 50%;
     transform: translateX(-200px);
 }
+
+.modal-background{
+    position: absolute;
+    z-index: 2;
+    background-color: rgba(189,214,223,0.43);
+    width: 100vw;
+    height: 100vh;
+}
+
+.modal-content{
+    background-color: white;
+    margin-top: 100px;
+    border-radius: 10px;
+    width: 60vw;
+    height: 500px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}

@@ -98,9 +98,9 @@ public class EmployeeControllerPageableREST {
         } else {
 
             // Checking if there is an employee with this email
-            Optional<Employee> entity = this.employeeService.findByEmail(employee.getEmail());
+            List<Employee> entity = this.employeeService.findByEmail(employee.getEmail());
 
-            if (!entity.isPresent()){
+            if (entity.size() > 0){
 
                 employeeService.save(employee);
 
